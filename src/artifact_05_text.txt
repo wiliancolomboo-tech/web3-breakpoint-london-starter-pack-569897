@@ -1,0 +1,19 @@
+[00:00 - 00:20] HOOK & PROBLEM STATEMENT
+Visual: Split screen: Highlighting chaotic hackathon spreadsheets and manual token disbursements vs. Clean Terminal.
+Speaker: "At Solana Breakpoint London, hundreds of elite builders deploy revolutionary dApps across multiple tracks. But organizing bounties, tracking attestations, and distributing hundreds of thousands in prize capital remains fragmented, manual, and vulnerable to misconfigurations. Enter the Breakpoint London Starter Pack."
+
+[00:20 - 00:50] CORE ARCHITECTURE & TOKEN-2022
+Visual: Screen recording running the Anchor test suite in terminal. All 6 tests pass with green checkmarks. Mermaid architecture diagram overlay.
+Speaker: "This is a production-grade, zero-copy protocol written in Anchor 0.30, leveraging Solana Token-2022 extensions. We provide instant, cryptographic hacker registration with Soulbound credential badges, alongside an immutable, multi-track escrow engine capable of holding and distributing sponsor bounties."
+
+[00:50 - 01:25] LIVE DEMO: SPONSOR DEPOSIT TO SPLIT DISBURSEMENT
+Visual: Execution of the TypeScript test suite showing `fund_track_vault` followed by `disburse_prizes`. Cursor highlights the exact slot validation and proportional 70/30 split.
+Speaker: "Watch this: A sponsor initializes a 50,000 USDC vault for Track 1 with an automated slot timelock. At the end of judging, our program disburses prizes directly to multiple winners in a single atomic transaction. No off-chain signature holding, no manual multi-sig delays—just deterministic, mathematically validated payouts executing at under 24,000 compute units."
+
+[01:25 - 01:45] SECURITY & RESILIENCE
+Visual: Close-up on the Rust source code: showing `checked_math`, Canonical Bump guards, and the `set_circuit_breaker` function.
+Speaker: "Security is non-negotiable. With canonical bump validations, strict account owner verification, integer overflow bounds, and an emergency circuit breaker, organizers and hackers get bank-grade reliability."
+
+[01:45 - 02:00] THE WINNING EDGE
+Visual: GitHub repo showcase with complete documentation, CLI tooling, and frontend integration hooks.
+Speaker: "The Breakpoint London Starter Pack doesn't just demonstrate Solana's speed; it arms developers with a battle-tested blueprint to launch on-chain events and track prize escrows instantly. Fast, composable, and secure. Thank you!"
