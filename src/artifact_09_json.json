@@ -1,0 +1,11 @@
+// Example GET /healthz response payload
+{
+  "status": "healthy",
+  "service": "breakpoint-london-starter-pack",
+  "uptime_seconds": 84210,
+  "solana_slot_height": 289410291,
+  "rpc_latency_ms": 38,
+  "active_event_pda": "6Qe1Pz3B5wN4...",
+  "vault_balance_remaining": "400000000",
+  "checked_in_attendees": 1842
+}

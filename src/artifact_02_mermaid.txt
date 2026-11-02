@@ -1,0 +1,32 @@
+flowchart TD
+    subgraph Client ["1. Client & Breakpoint London Attendee"]
+        A[Breakpoint London Attendee / Builder] -->|1. Request Gasless Pass / Bounty Claim| B[Breakpoint Relayer Client]
+    end
+
+    subgraph Relayer ["2. Enterprise Relayer & Meta-Tx Node"]
+        B -->|2. Sign Payload / Pay Gas| C[Fee Sponsor Relayer Service]
+        C -->|3. Validate Merkle Proof & Nonce| D[Pre-flight Simulation Engine]
+    end
+
+    subgraph Solana ["3. Solana On-Chain Runtime (Anchor Program)"]
+        D -->|4. Submit Sponsored Tx| E[Breakpoint Core Program]
+        E -->|5. Verify Authority / Signer PDA| F[Attendee Registry PDA]
+        E -->|6. Release Milestone Escrow| G[Escrow Vault Token / SOL PDA]
+        E -->|7. Emit On-Chain Anchor Event| H[Log: MilestoneClaimedEvent]
+    end
+
+    subgraph Enterprise ["4. Enterprise Dispatch & Webhook Ingestion"]
+        H -->|8. Webhook / Event Stream Ingestion| I[Enterprise Event Listener Worker]
+        I -->|9. Post Milestone Update| J[Slack / Discord Ops Webhook]
+        I -->|10. Send Transactional Receipt| K[Resend Email API]
+    end
+
+    classDef clientStyle fill:#1e1e2e,stroke:#89b4fa,stroke-width:2px,color:#cdd6f4;
+    classDef relayerStyle fill:#181825,stroke:#f38ba8,stroke-width:2px,color:#cdd6f4;
+    classDef solanaStyle fill:#11111b,stroke:#a6e3a1,stroke-width:2px,color:#cdd6f4;
+    classDef enterpriseStyle fill:#313244,stroke:#fab387,stroke-width:2px,color:#cdd6f4;
+
+    class A,B clientStyle;
+    class C,D relayerStyle;
+    class E,F,G,H solanaStyle;
+    class I,J,K enterpriseStyle;

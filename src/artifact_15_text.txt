@@ -1,0 +1,21 @@
+EventConfig:
+    Discriminator: 8 bytes
+    admin:         32 bytes
+    fee_lamports:   8 bytes
+    total_attendees:8 bytes
+    event_end_slot: 8 bytes
+    is_active:      1 byte
+    bump:           1 byte
+    ------------------------
+    Total:         66 bytes -> Padded to 72 bytes for 8-byte alignment.
+
+SessionEscrow:
+    Discriminator: 8 bytes
+    authority:     32 bytes
+    delegate:      32 bytes
+    spend_cap:      8 bytes
+    total_spent:    8 bytes
+    expiry_slot:    8 bytes
+    bump:           1 byte
+    ------------------------
+    Total:         97 bytes -> Padded to 104 bytes for 8-byte alignment.

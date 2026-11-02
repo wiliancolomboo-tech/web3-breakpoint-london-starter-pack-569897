@@ -1,12 +1,12 @@
 [package]
-name = "breakpoint-london-pack"
+name = "breakpoint_starter_pack"
 version = "0.1.0"
-description = "Breakpoint London Solana Starter Pack & Multi-Track Bounty Engine"
+description = "Solana Breakpoint London Enterprise Starter Pack & Credential Engine"
 edition = "2021"
 
 [lib]
 crate-type = ["cdylib", "lib"]
-name = "breakpoint_london_pack"
+name = "breakpoint_starter_pack"
 
 [features]
 no-entrypoint = []
@@ -17,8 +17,3 @@ default = []
 
 [dependencies]
 anchor-lang = { version = "0.30.1", features = ["init-if-needed"] }
-anchor-spl = { version = "0.30.1", features = ["token_2022"] }
-solana-program = "=1.18.26"
-spl-token-2022 = { version = "0.13.0", features = ["no-entrypoint"] }
-spl-tlv-account-resolution = "0.1.5"
-thiserror = "1.0.63"

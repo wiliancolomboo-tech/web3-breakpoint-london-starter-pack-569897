@@ -1,0 +1,21 @@
+version: "3.8"
+
+services:
+  breakpoint-relayer:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: breakpoint-london-relayer
+    restart: always
+    environment:
+      - NODE_ENV=production
+      - SOLANA_RPC_URL=${SOLANA_RPC_URL:-https://api.devnet.solana.com}
+      - PROGRAM_ID=${PROGRAM_ID:-BrkPntLondon111111111111111111111111111111111}
+      - RESEND_API_KEY=${RESEND_API_KEY}
+      - RESEND_FROM_EMAIL=${RESEND_FROM_EMAIL:-tickets@breakpointlondon.io}
+      - SLACK_WEBHOOK_URL=${SLACK_WEBHOOK_URL}
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "20m"
+        max-file: "5"

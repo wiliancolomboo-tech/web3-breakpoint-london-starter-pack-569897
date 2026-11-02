@@ -1,0 +1,25 @@
+version: '3.8'
+
+services:
+  breakpoint-relayer:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: breakpoint-relayer-prod
+    restart: unless-stopped
+    ports:
+      - "8080:8080"
+    environment:
+      - NODE_ENV=production
+      - PROGRAM_ID=BrkPntLndn1111111111111111111111111111111111
+      - SOLANA_RPC_HTTP_URL=https://api.devnet.solana.com
+      - SOLANA_RPC_WS_URL=wss://api.devnet.solana.com
+      - DISCORD_WEBHOOK_URL=${DISCORD_WEBHOOK_URL}
+      - SLACK_WEBHOOK_URL=${SLACK_WEBHOOK_URL}
+      - RESEND_API_KEY=${RESEND_API_KEY}
+      - RESEND_FROM_EMAIL=${RESEND_FROM_EMAIL:-onboarding@resend.dev}
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "20m"
+        max-file: "5"

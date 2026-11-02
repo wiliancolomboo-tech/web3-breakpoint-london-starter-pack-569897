@@ -1,0 +1,7 @@
+PROGRAM_ID=BrkPntLndn1111111111111111111111111111111111
+SOLANA_RPC_HTTP_URL=https://api.devnet.solana.com
+SOLANA_RPC_WS_URL=wss://api.devnet.solana.com
+DISCORD_WEBHOOK_URL=https://api.example.com/webhooks/alerts/placeholder
+SLACK_WEBHOOK_URL=https://api.example.com/webhooks/alerts/placeholder
+RESEND_API_KEY=re_123456789abcdef
+RESEND_FROM_EMAIL=tickets@breakpoint-london.com

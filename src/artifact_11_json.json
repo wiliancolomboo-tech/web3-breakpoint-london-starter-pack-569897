@@ -1,0 +1,8 @@
+{
+  "status": "healthy",
+  "svm_slot": 3128912,
+  "paymaster_balance_sol": 18.42,
+  "active_sessions": 412,
+  "resend_dispatcher": "connected",
+  "version": "1.0.0-breakpoint-london"
+}

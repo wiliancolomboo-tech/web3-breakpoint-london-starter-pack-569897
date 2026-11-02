@@ -1,0 +1,7 @@
+ANCHOR_PROVIDER_URL=http://127.0.0.1:8899
+ANCHOR_WALLET=/root/.config/solana/id.json
+SOLANA_RPC_URL=https://api.devnet.solana.com
+SOLANA_WS_URL=wss://api.devnet.solana.com
+PROGRAM_ID=BrkPnt1111111111111111111111111111111111111
+RESEND_API_KEY=re_1234567890abcdef
+SLACK_WEBHOOK_URL=https://api.example.com/webhooks/alerts/placeholder

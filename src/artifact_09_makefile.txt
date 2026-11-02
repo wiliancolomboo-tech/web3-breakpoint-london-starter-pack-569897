@@ -1,0 +1,21 @@
+.PHONY: up down test build deploy clean
+
+up:
+	docker compose up --build -d
+
+down:
+	docker compose down -v
+
+test:
+	anchor test
+
+build:
+	anchor build
+
+deploy-devnet:
+	solana config set --url https://api.devnet.solana.com
+	anchor build
+	solana program deploy ./target/deploy/breakpoint_core.so
+
+clean:
+	rm -rf target .anchor

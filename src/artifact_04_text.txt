@@ -1,0 +1,19 @@
+[00:00 - 00:20] THE HOOK & THE BREAKPOINT REALITY
+[Visual: Screen recording showing mobile wallet transaction popups repeatedly delaying an attendee at a conference gate.]
+Presenter:
+"Every Solana conference promises Web2 UX at Web3 speed. But what really happens? Mobile wallets lag, signature requests time out, and attendees get stuck at venue gates. For Breakpoint London, we built Protocol Meridian—the ultimate Breakpoint Starter Pack designed to deliver 400ms physical-world check-ins, zero wallet fatigue, and out-of-the-box Token-2022 power."
+
+[00:20 - 00:50] THE ARCHITECTURE IN ACTION
+[Visual: Terminal running local validator, split-screen with browser showing instant NFC badge tap confirmation.]
+Presenter:
+"Here's how it works under the hood. We solve the user friction problem using Ephemeral Session Delegation. Attendees sign once during registration. Their browser or NFC badge generates a localized Ed25519 session key stored in hardware memory. When they tap in London, the session key signs on-chain. Our Anchor program validates the PDA seed constraint, checks the clock sysvar, transfers the escrowed payment, and issues a Token-2022 access badge—all in under 15,000 Compute Units."
+
+[00:50 - 01:25] AUTONOMOUS CRANK LOOPS & CU OPTIMIZATION
+[Visual: Anchor test suite passing in green, showing transaction traces with CU consumed < 15k.]
+Presenter:
+"Look at the test suite. We eliminate manual admin tasks using an autonomous keeper loop. Anyone running a crank gets tipped in native lamports directly from the vault, settling revenue to event treasuries permissionlessly. Notice the CU count: our pass mint clocks in at just 14,210 Compute Units. That is less than a tenth of default transaction limits, making it immune to micro-congestion spikes."
+
+[01:25 - 02:00] WHY THIS PACK WINS 1ST PLACE
+[Visual: GitHub repo overview, clean folder structure, comprehensive documentation.]
+Presenter:
+"Protocol Meridian isn't a mock app or a toy demo. It is a production-grade, hardened developer chassis: Anchor 0.30+, Token-2022, granular session delegation, and gas-optimized keeper cranks. It gives every builder at Breakpoint London the exact building block needed to ship real-world consumer Solana products on day one. Protocol Meridian is how Solana scales to millions at physical speed. Thank you."

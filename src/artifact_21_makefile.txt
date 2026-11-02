@@ -1,0 +1,21 @@
+.PHONY: build test deploy-devnet start-worker clean
+
+build:
+	anchor build
+
+test:
+	anchor test
+
+deploy-devnet:
+	solana config set --url https://api.devnet.solana.com
+	anchor build
+	solana program deploy target/deploy/breakpoint_core.so --url devnet
+
+start-worker:
+	cd client && npm install && npm run build && npm start
+
+up:
+	docker compose up --build -d
+
+down:
+	docker compose down -v

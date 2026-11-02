@@ -1,0 +1,7 @@
+Turnkey execution for hackers, sponsors, and founders in London:
+
+📦 GitHub Scaffolding: github.com/solana-developers/breakpoint-london-starter-pack
+🛠️ Spin up a local gate validator: `docker-compose up -d`
+⚡ Powered by @Solana & @AnchorLang
+
+Fork it, build on top, and ship at Breakpoint! 🇬🇧☕

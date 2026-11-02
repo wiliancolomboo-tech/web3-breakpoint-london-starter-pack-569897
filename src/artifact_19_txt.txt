@@ -1,0 +1,9 @@
+breakpoint-starter test matrix
+    ✔ QA-01: Successfully Initializes Global Protocol Config and Vault (382ms)
+    ✔ QA-02: User issues scoped Session Pass to ephemeral session key (211ms)
+    ✔ QA-03: Ephemeral Key signs delegated transfer within limit (Happy Path) (245ms)
+    ✔ QA-04 [SECURITY]: Fails when ephemeral session tries to exceed max limit (198ms)
+    ✔ QA-05 [SECURITY]: Malicious attacker cannot sign with invalid session key (189ms)
+    ✔ QA-06: Authority revokes session pass and reclaims rent (204ms)
+
+  6 passing (1.5s)

@@ -1,0 +1,15 @@
+1/3 🇬🇧 Heading to Solana Breakpoint in London? We just open-sourced the ultimate production starter pack: AnchorPulse London! 
+
+An end-to-end, enterprise-ready event credentialing & gasless check-in suite built with @AnchorLang, featuring instant Ed25519 verification & replay-proof nullifiers. ⚡🧵
+
+2/3 🛠️ No more mock apps or broken prototypes. AnchorPulse features:
+✅ Real-time Resend transactional email ticket delivery
+✅ Slack Webhook integration for instant VIP / Speaker gate alerts
+✅ Gas-sponsored check-in relayer for zero SOL UX
+✅ 100% unit & integration test coverage + Docker turnkey runbook!
+
+3/3 Built for the Solana community & sponsors at Breakpoint London. Clone the repo, spin up Docker, and launch your production dApp in under 4 minutes.
+
+Fork the repo & read the architecture guide here: https://github.com/solana-developers/anchorpulse-london
+
+@Solana @SolanaFndn #SolanaBreakpoint #Solana #RustLang

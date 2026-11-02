@@ -1,0 +1,14 @@
++---------------------------------------------------------------------------------------------------+
+|                                   INCIDENT TRIAGE & RECOVERY MATRIX                               |
++-------------------+---------------------------------------+---------------------------------------+
+| Incident Code     | Root Cause Diagnosis                  | Automated Remediation Protocol        |
++-------------------+---------------------------------------+---------------------------------------+
+| ERR_RPC_TIMEOUT   | Solana cluster slot lag / congestion  | Rotates connection endpoint through   |
+|                   |                                       | secondary failover RPC array.         |
+| ERR_REPLAY_ATTEMPT| Unauthorized double-scan of pass      | Flags pass PDA on-chain, drops state, |
+|                   |                                       | emits high-priority Discord alert.    |
+| ERR_KEY_EXHAUST   | Fee-payer treasury lamports < 0.05    | PagerDuty alert; triggers auto-sweep  |
+|                   |                                       | top-up script via operations vault.   |
+| ERR_RESEND_FAIL   | Rate-limit / invalid attendee email   | Pushes message to secondary Redis DLQ |
+|                   |                                       | (Dead Letter Queue) for retry.        |
++-------------------+---------------------------------------+---------------------------------------+

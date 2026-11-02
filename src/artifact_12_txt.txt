@@ -1,0 +1,8 @@
+Everything you need to ship a hackathon winner or run enterprise Breakpoint side-events in under 3 minutes:
+✅ Multi-stage Dockerized setup
+✅ 100% passing QA matrix & security tests
+✅ Full client SDK & CLI runner
+
+Grab the repo & deploy today: https://github.com/solana-developers/breakpoint-london-starter-pack 🚀
+
+See you in London! 🇬🇧⚡️

@@ -1,60 +1,39 @@
 flowchart TD
-    subgraph ClientLayer["Client & Keeper Layer"]
-        Organizer["Event Organizer / Admin"]
-        Hacker["Hacker / Attendee"]
-        Keeper["Automated Keeper / Cron Worker"]
+    subgraph Attendees & Gate Terminals
+        User["Attendee / Hacker"]
+        Scanner["Venue Terminal / QR Scanner"]
     end
 
-    subgraph ProgramBoundary["Breakpoint Core Engine (Anchor Program)"]
-        direction TB
-        
-        subgraph StateManagement["State & Account Storage (Zero-Copy / Byte-Packed)"]
-            ConfigAccount[("Global Config PDA<br/>['config']<br/>- Admin Pubkey<br/>- Emergency Pause Flag<br/>- Protocol Treasury")]
-            EventVault[("Track Bounty Vault PDA<br/>['vault', track_id]<br/>- Total Committed Capital<br/>- Remaining Balance<br/>- Unlock Timestamp")]
-            HackerBadge[("Attendee Credential PDA<br/>['attendee', event_id, wallet]<br/>- Checked-in Timestamp<br/>- Track ID Assignment<br/>- Merkle Attestation Root")]
-        end
-
-        subgraph InstructionHandlers["Instruction Logic & Guard Encoders"]
-            IxInit["initialize_event()"]
-            IxRegister["register_hacker()"]
-            IxDeposit["fund_track_vault()"]
-            IxDisburse["disburse_prizes()"]
-            IxEmergency["circuit_breaker_toggle()"]
-        end
-
-        subgraph SecurityGuards["Security & Invariant Engine"]
-            BumpCheck{"Canonical Bump<br/>Verification"}
-            SignerCheck{"Signer & RBAC<br/>Validation"}
-            TimeGuard{"Timelock & Slot<br/>Validation"}
-            Token2022Guard{"Token-2022 Extensions<br/>Safety Boundary"}
-        end
+    subgraph OffChain Engine ["Breakpoint Ingress Daemon & CLI"]
+        CLI["Breakpoint CLI Tool"]
+        API["Node.js / Express Ingress Service"]
+        Resend["Resend Email API"]
+        Discord["Discord / Slack Webhook Engine"]
     end
 
-    subgraph NativePrograms["External & Core Solana Programs"]
-        SystemProgram["System Program (11111111...)"]
-        Token2022Program["SPL Token-2022 Program (TokenzQd...)"]
-        AssociatedTokenProgram["Associated Token Program (ATokenGP...)"]
+    subgraph Solana Runtime ["Solana Cluster (Devnet / Mainnet-Beta)"]
+        Program["Anchor Program: breakpoint_starter_pack"]
+        EventPDA["Event Account PDA ['event', event_id]"]
+        PassPDA["Attendee Pass PDA ['pass', event_id, attendee_pubkey]"]
+        VaultPDA["Sponsor Vault PDA ['vault', event_id]"]
     end
 
-    %% Interactions
-    Organizer -->|1. Initialize Configuration| IxInit
-    Organizer -->|2. Allocate Track Vault| IxDeposit
-    Hacker -->|3. Self-Checkin / Claim Badge| IxRegister
-    Organizer -->|4. Finalize & Disburse| IxDisburse
-    Keeper -->|5. Monitor & Trigger Timelock| IxDisburse
-    Organizer -->|Emergency Pause| IxEmergency
+    User -->|"1. Register Pass"| CLI
+    CLI -->|"2. Submit register_pass IX"| Program
+    Program -->|"3. Allocate Pass PDA"| PassPDA
+    Program -->|"4. Update Counters"| EventPDA
+    
+    API -->|"5. Monitor PassCreated Event"| Program
+    API -->|"6. Render & Send QR Ticket"| Resend
+    Resend -->|"7. Inbound Email with Signed QR"| User
 
-    IxInit --> SignerCheck
-    IxRegister --> BumpCheck
-    IxDeposit --> TimeGuard
-    IxDisburse --> Token2022Guard
+    User -->|"8. Present Signed QR at Gate"| Scanner
+    Scanner -->|"9. Call check_in IX"| Program
+    Program -->|"10. Mutate State: is_checked_in = true"| PassPDA
+    Program -->|"11. Emit CheckedIn Event"| API
+    API -->|"12. Stream Venue Telemetry"| Discord
 
-    SignerCheck --> ConfigAccount
-    BumpCheck --> HackerBadge
-    TimeGuard --> EventVault
-    Token2022Guard --> EventVault
-
-    IxDeposit -.->|CPI TransferChecked| Token2022Program
-    IxDisburse -.->|CPI TransferChecked with Fee Waiver| Token2022Program
-    IxRegister -.->|CPI MintTo Soulbound| Token2022Program
-    IxInit -.->|Allocate State| SystemProgram
+    User -->|"13. Claim Sponsor Perk"| Scanner
+    Scanner -->|"14. Call claim_perk IX (bitmask)"| Program
+    Program -->|"15. Verify & Set Bit in perk_mask"| PassPDA
+    Program -->|"16. Release Swag / Token"| VaultPDA

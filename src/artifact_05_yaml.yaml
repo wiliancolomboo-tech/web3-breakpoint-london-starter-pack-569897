@@ -1,0 +1,37 @@
+version: "3.8"
+
+services:
+  redis:
+    image: redis:7-alpine
+    container_name: breakpoint-redis
+    ports:
+      - "6379:6379"
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      timeout: 3s
+      retries: 5
+
+  relayer-daemon:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: breakpoint-relayer
+    depends_on:
+      redis:
+        condition: service_healthy
+    environment:
+      - NODE_ENV=production
+      - SOLANA_RPC_URL=https://api.devnet.solana.com
+      - PROGRAM_ID=BPk5vY2zQ7gWnL9mJ1kS8vD4tF6uA3xN2yE1pC9rZ8m4
+      - RESEND_API_KEY=${RESEND_API_KEY}
+      - DISCORD_WEBHOOK_URL=${DISCORD_WEBHOOK_URL}
+      - ADMIN_KEYPAIR_PATH=/secrets/admin-keypair.json
+      - REDIS_URL=redis://breakpoint-redis:6379
+      - PORT=3000
+    volumes:
+      - ./secrets:/secrets:ro
+    ports:
+      - "3000:3000"
+    restart: unless-stopped

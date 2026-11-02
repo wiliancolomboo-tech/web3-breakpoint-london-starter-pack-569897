@@ -1,0 +1,8 @@
+Breakpoint London Engine Integration Tests
+    ✔ QA-01: Successfully Initializes Session with Valid TTL and Allowance (285ms)
+    ✔ QA-02: Escrow Deposit transfers Token-2022 tokens into Program Vault PDA (420ms)
+    ✔ QA-03: Session Key executes action autonomously within limits without Master signature (390ms)
+    ✔ QA-04: Security Guard - Rejects Execution Exceeding Authorized Allowance (195ms)
+    ✔ QA-05: Session Closure reclaims account lamports back to Master Authority (210ms)
+
+  5 passing (2s)

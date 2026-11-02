@@ -1,0 +1,5 @@
+⚙️ Built under the hood for scale:
+• Anchor 0.30 program with 64-perk bitmask verification (zero rent bloat)
+• Replay-proof deterministic PDAs for every sponsor voucher
+• Sub-second @resend email delivery + Discord sponsor telemetry
+• Turnkey Docker relayer for 1-click sponsor booth integration ⚡️

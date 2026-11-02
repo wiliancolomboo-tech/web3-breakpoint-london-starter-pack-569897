@@ -1,0 +1,10 @@
+PORT=8080
+NODE_ENV=production
+SOLANA_RPC_URL=https://api.devnet.solana.com
+PROGRAM_ID=BrkptLon11111111111111111111111111111111111
+EVENT_ID=BREAKPOINT_2025_LDN
+# Array formats for keypairs: [1,2,3...]
+RELAYER_SECRET_KEY=[145,23,45,...]
+ADMIN_SECRET_KEY=[89,12,76,...]
+RESEND_API_KEY=re_enterprise_live_key_xyz
+DISCORD_WEBHOOK_URL=https://api.example.com/webhooks/alerts/placeholder

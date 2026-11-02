@@ -1,0 +1,9 @@
+client/
+├── package.json
+├── tsconfig.json
+└── src/
+    ├── index.ts
+    ├── services/
+    │   ├── emailService.ts
+    │   └── webhookService.ts
+    └── cli.ts

@@ -1,0 +1,18 @@
++-----------------------------------------------------------------------------------------+
+|                                    DEFENSE IN DEPTH                                     |
++------------------------------------+----------------------------------------------------+
+| VULNERABILITY VECTOR               | IMPLEMENTED PROTOCOL MITIGATION                     |
++------------------------------------+----------------------------------------------------+
+| 1. Missing Signer Validation       | Anchor `Signer<'info>` constraint on Sponsor       |
+|                                    | and Admin accounts.                                |
+| 2. PDA Seed Collision / Spoofing  | Explicit canonical bumps cached at initialization  |
+|                                    | and strictly asserted on CPI signer derivation.    |
+| 3. Reentrancy / State Desync       | Checks-Effects-Interactions: Accounts internal     |
+|                                    | state mutates prior to external token CPI invoke.  |
+| 4. Arithmetic Underflow / Overflow | Strict usage of checked arithmetic (`checked_sub`, |
+|                                    | `checked_add`) mapping to custom Engine errors.    |
+| 5. Token Substitution Attack       | Explicit `has_one = mint` check preventing fake    |
+|                                    | token vaults from satisfying escrow releases.      |
+| 6. Ghost Vault Rent Exploit        | Escrow closure is prevented unless balance is zero |
+|                                    | and all designated milestones have been settled.   |
++------------------------------------+----------------------------------------------------+

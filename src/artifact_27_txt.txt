@@ -1,0 +1,7 @@
+Engineered for real institutional protocols:
+✅ Deterministic PDA pass derivations & zero-copy error isolation
+✅ Native SOL/SPL perk claim escrow with instant sub-second settlement
+✅ Turnkey event relayer streaming receipts to @resend & Discord/Slack webhooks
+✅ 100% test coverage with Dockerized 1-click testnet spins
+
+No mocks. Real code. 🛡️

@@ -1,0 +1,8 @@
+{
+  "rules": [
+    {
+      "pathPattern": "/api/breakpoint/**",
+      "apiPath": "/api/breakpoint/**"
+    }
+  ]
+}

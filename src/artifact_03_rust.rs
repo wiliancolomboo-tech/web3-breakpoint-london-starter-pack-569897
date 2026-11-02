@@ -1,408 +1,312 @@
 use anchor_lang::prelude::*;
-use anchor_spl::token_2022::{self, MintTo, TransferChecked};
-use anchor_spl::token_interface::{Mint, Token2022, TokenAccount};
 
-declare_id!("BrkPntLndn111111111111111111111111111111111");
-
-pub const MAX_WINNERS_PER_TRACK: usize = 5;
-pub const CONFIG_SEED: &[u8] = b"global-config";
-pub const VAULT_SEED: &[u8] = b"bounty-vault";
-pub const BADGE_SEED: &[u8] = b"attendee-badge";
+declare_id!("BrkPntLndn1111111111111111111111111111111111");
 
 #[program]
-pub mod breakpoint_london_pack {
+pub mod breakpoint_starter_pack {
     use super::*;
 
-    /// Initialize the global Breakpoint configuration and admin authority
-    pub fn initialize(
-        ctx: Context<Initialize>,
-        fee_basis_points: u16,
-        disbursement_delay_slots: u64,
+    pub fn initialize_event(
+        ctx: Context<InitializeEvent>,
+        event_id: String,
+        name: String,
+        max_capacity: u32,
     ) -> Result<()> {
-        let config = &mut ctx.accounts.config;
-        config.admin = ctx.accounts.admin.key();
-        config.treasury = ctx.accounts.treasury.key();
-        config.protocol_fee_bps = fee_basis_points;
-        config.disbursement_delay_slots = disbursement_delay_slots;
-        config.is_paused = false;
-        config.total_events = 0;
-        config.bump = ctx.bumps.config;
+        require!(event_id.len() > 0 && event_id.len() <= 32, BreakpointError::InvalidEventIdLength);
+        require!(name.len() > 0 && name.len() <= 64, BreakpointError::InvalidNameLength);
+        require!(max_capacity > 0, BreakpointError::InvalidCapacity);
 
-        msg!("Breakpoint London Master Config initialized by: {:?}", config.admin);
+        let event = &mut ctx.accounts.event;
+        event.authority = ctx.accounts.authority.key();
+        event.event_id = event_id;
+        event.name = name;
+        event.max_capacity = max_capacity;
+        event.total_registered = 0;
+        event.total_checked_in = 0;
+        event.is_active = true;
+        event.bump = ctx.bumps.event;
+
+        emit!(EventInitialized {
+            event_id: event.event_id.clone(),
+            authority: event.authority,
+            max_capacity,
+        });
+
         Ok(())
     }
 
-    /// Register a hacker, validating attendance and minting a Soulbound Token-2022 credential
-    pub fn register_hacker(
-        ctx: Context<RegisterHacker>,
-        event_id: u64,
-        hacker_handle_hash: [u8; 32],
+    pub fn register_pass(
+        ctx: Context<RegisterPass>,
+        tier: PassTier,
+        metadata_uri: String,
     ) -> Result<()> {
-        require!(!ctx.accounts.config.is_paused, BreakpointError::ProtocolPaused);
+        require!(metadata_uri.len() <= 128, BreakpointError::InvalidMetadataUri);
+        
+        let event = &mut ctx.accounts.event;
+        require!(event.is_active, BreakpointError::EventInactive);
+        require!(event.total_registered < event.max_capacity, BreakpointError::CapacityExceeded);
 
-        let badge = &mut ctx.accounts.hacker_badge;
+        let pass = &mut ctx.accounts.pass;
+        pass.event = event.key();
+        pass.attendee = ctx.accounts.attendee.key();
+        pass.tier = tier;
+        pass.metadata_uri = metadata_uri;
+        pass.is_checked_in = false;
+        pass.check_in_timestamp = 0;
+        pass.perks_claimed_mask = 0;
+        pass.bump = ctx.bumps.pass;
+
+        event.total_registered = event.total_registered.checked_add(1)
+            .ok_or(BreakpointError::ArithmeticOverflow)?;
+
+        emit!(PassRegistered {
+            event: event.key(),
+            attendee: pass.attendee,
+            tier: pass.tier,
+            pass_pda: pass.key(),
+        });
+
+        Ok(())
+    }
+
+    pub fn check_in(ctx: Context<CheckIn>) -> Result<()> {
+        let event = &mut ctx.accounts.event;
+        let pass = &mut ctx.accounts.pass;
+
+        require!(event.is_active, BreakpointError::EventInactive);
+        require!(!pass.is_checked_in, BreakpointError::AlreadyCheckedIn);
+
         let clock = Clock::get()?;
+        pass.is_checked_in = true;
+        pass.check_in_timestamp = clock.unix_timestamp;
 
-        badge.hacker = ctx.accounts.hacker.key();
-        badge.event_id = event_id;
-        badge.handle_hash = hacker_handle_hash;
-        badge.checkin_timestamp = clock.unix_timestamp;
-        badge.track_assigned = 0; // Default track; updated upon submission
-        badge.bump = ctx.bumps.hacker_badge;
+        event.total_checked_in = event.total_checked_in.checked_add(1)
+            .ok_or(BreakpointError::ArithmeticOverflow)?;
 
-        // Mint attendee credential badge via Token-2022 CPI using Program Derived Address (PDA)
-        let seeds: &[&[&[u8]]] = &[&[
-            CONFIG_SEED,
-            &[ctx.accounts.config.bump],
-        ]];
+        emit!(AttendeeCheckedIn {
+            event: event.key(),
+            attendee: pass.attendee,
+            timestamp: pass.check_in_timestamp,
+        });
 
-        let mint_ctx = CpiContext::new_with_signer(
-            ctx.accounts.token_program.to_account_info(),
-            MintTo {
-                mint: ctx.accounts.badge_mint.to_account_info(),
-                to: ctx.accounts.badge_token_account.to_account_info(),
-                authority: ctx.accounts.config.to_account_info(),
-            },
-            seeds,
-        );
-
-        token_2022::mint_to(mint_ctx, 1)?;
-
-        msg!("Hacker registered: {:?} for event: {}", badge.hacker, event_id);
         Ok(())
     }
 
-    /// Sponsor deposits prize funds into a Track Bounty Escrow Vault
-    pub fn fund_track_vault(
-        ctx: Context<FundTrackVault>,
-        track_id: u8,
-        amount: u64,
-        unlock_slot: u64,
+    pub fn claim_perk(
+        ctx: Context<ClaimPerk>,
+        perk_id: u8,
     ) -> Result<()> {
-        require!(!ctx.accounts.config.is_paused, BreakpointError::ProtocolPaused);
-        require!(amount > 0, BreakpointError::ZeroDeposit);
-        let clock = Clock::get()?;
-        require!(unlock_slot > clock.slot, BreakpointError::InvalidTimelock);
+        require!(perk_id < 64, BreakpointError::InvalidPerkId);
 
-        let vault = &mut ctx.accounts.track_vault;
-        if vault.total_allocation == 0 {
-            vault.track_id = track_id;
-            vault.sponsor = ctx.accounts.sponsor.key();
-            vault.unlock_slot = unlock_slot;
-            vault.bump = ctx.bumps.track_vault;
-            vault.token_mint = ctx.accounts.vault_mint.key();
-        }
+        let pass = &mut ctx.accounts.pass;
+        require!(pass.is_checked_in, BreakpointError::MustBeCheckedInToClaimPerk);
 
-        vault.total_allocation = vault
-            .total_allocation
-            .checked_add(amount)
-            .ok_or(BreakpointError::MathOverflow)?;
-        vault.remaining_balance = vault
-            .remaining_balance
-            .checked_add(amount)
-            .ok_or(BreakpointError::MathOverflow)?;
+        let mask = 1u64 << perk_id;
+        require!((pass.perks_claimed_mask & mask) == 0, BreakpointError::PerkAlreadyClaimed);
 
-        let decimals = ctx.accounts.vault_mint.decimals;
+        // Mark perk as claimed via bitwise OR
+        pass.perks_claimed_mask |= mask;
 
-        let cpi_accounts = TransferChecked {
-            from: ctx.accounts.sponsor_token_account.to_account_info(),
-            mint: ctx.accounts.vault_mint.to_account_info(),
-            to: ctx.accounts.vault_token_account.to_account_info(),
-            authority: ctx.accounts.sponsor.to_account_info(),
-        };
+        emit!(PerkClaimed {
+            event: ctx.accounts.event.key(),
+            attendee: pass.attendee,
+            perk_id,
+            timestamp: Clock::get()?.unix_timestamp,
+        });
 
-        let cpi_ctx = CpiContext::new(
-            ctx.accounts.token_program.to_account_info(),
-            cpi_accounts,
-        );
-
-        token_2022::transfer_checked(cpi_ctx, amount, decimals)?;
-
-        msg!("Vault funded for Track {}. Added: {} units", track_id, amount);
-        Ok(())
-    }
-
-    /// Disburse bounty payouts to vetted winners according to predefined basis points
-    pub fn disburse_prizes(
-        ctx: Context<DisbursePrizes>,
-        track_id: u8,
-        basis_points_split: Vec<u16>,
-    ) -> Result<()> {
-        require!(!ctx.accounts.config.is_paused, BreakpointError::ProtocolPaused);
-        let clock = Clock::get()?;
-        let vault = &mut ctx.accounts.track_vault;
-
-        require!(clock.slot >= vault.unlock_slot, BreakpointError::TimelockActive);
-        require!(basis_points_split.len() <= MAX_WINNERS_PER_TRACK, BreakpointError::TooManyRecipients);
-        require!(ctx.remaining_accounts.len() == basis_points_split.len(), BreakpointError::AccountMismatch);
-
-        let total_bps: u16 = basis_points_split.iter().sum();
-        require!(total_bps == 10_000, BreakpointError::InvalidBpsTotal);
-
-        let total_pool = vault.remaining_balance;
-        let decimals = ctx.accounts.vault_mint.decimals;
-        let bump = vault.bump;
-
-        let signer_seeds: &[&[&[u8]]] = &[&[
-            VAULT_SEED,
-            &[track_id],
-            &[bump],
-        ]];
-
-        for (i, bps) in basis_points_split.iter().enumerate() {
-            let payout = (total_pool as u128)
-                .checked_mul(*bps as u128)
-                .ok_or(BreakpointError::MathOverflow)?
-                .checked_div(10_000)
-                .ok_or(BreakpointError::MathOverflow)? as u64;
-
-            if payout == 0 {
-                continue;
-            }
-
-            let winner_account_info = &ctx.remaining_accounts[i];
-
-            let cpi_accounts = TransferChecked {
-                from: ctx.accounts.vault_token_account.to_account_info(),
-                mint: ctx.accounts.vault_mint.to_account_info(),
-                to: winner_account_info.clone(),
-                authority: vault.to_account_info(),
-            };
-
-            let cpi_ctx = CpiContext::new_with_signer(
-                ctx.accounts.token_program.to_account_info(),
-                cpi_accounts,
-                signer_seeds,
-            );
-
-            token_2022::transfer_checked(cpi_ctx, payout, decimals)?;
-        }
-
-        vault.remaining_balance = 0;
-        msg!("Bounty payout execution complete for Track {}", track_id);
-        Ok(())
-    }
-
-    /// Circuit breaker emergency toggle for incident response
-    pub fn set_circuit_breaker(ctx: Context<SetCircuitBreaker>, pause: bool) -> Result<()> {
-        let config = &mut ctx.accounts.config;
-        config.is_paused = pause;
-        msg!("Protocol Circuit Breaker set to: {}", pause);
         Ok(())
     }
 }
 
 // -----------------------------------------------------------------------------
-// ACCOUNT CONTEXTS
+// DATA STRUCTURES & ACCOUNTS
+// -----------------------------------------------------------------------------
+
+#[derive(AnchorSerialize, AnchorDeserialize, Clone, Copy, PartialEq, Eq)]
+pub enum PassTier {
+    General,
+    Hacker,
+    VIP,
+    Speaker,
+}
+
+#[account]
+pub struct EventAccount {
+    pub authority: Pubkey,       // 32
+    pub event_id: String,        // 4 + 32
+    pub name: String,            // 4 + 64
+    pub max_capacity: u32,       // 4
+    pub total_registered: u32,   // 4
+    pub total_checked_in: u32,   // 4
+    pub is_active: bool,         // 1
+    pub bump: u8,                // 1
+}
+
+impl EventAccount {
+    pub const LEN: usize = 8 + 32 + (4 + 32) + (4 + 64) + 4 + 4 + 4 + 1 + 1;
+}
+
+#[account]
+pub struct PassAccount {
+    pub event: Pubkey,           // 32
+    pub attendee: Pubkey,        // 32
+    pub tier: PassTier,          // 1
+    pub metadata_uri: String,    // 4 + 128
+    pub is_checked_in: bool,     // 1
+    pub check_in_timestamp: i64, // 8
+    pub perks_claimed_mask: u64, // 8 (Bitmask supporting up to 64 individual sponsor perks)
+    pub bump: u8,                // 1
+}
+
+impl PassAccount {
+    pub const LEN: usize = 8 + 32 + 32 + 1 + (4 + 128) + 1 + 8 + 8 + 1;
+}
+
+// -----------------------------------------------------------------------------
+// CONTEXT INSTRUCTIONS
 // -----------------------------------------------------------------------------
 
 #[derive(Accounts)]
-pub struct Initialize<'info> {
+#[instruction(event_id: String)]
+pub struct InitializeEvent<'info> {
     #[account(
         init,
-        payer = admin,
-        space = 8 + GlobalConfig::INIT_SPACE,
-        seeds = [CONFIG_SEED],
+        payer = authority,
+        space = EventAccount::LEN,
+        seeds = [b"event", event_id.as_bytes()],
         bump
     )]
-    pub config: Account<'info, GlobalConfig>,
+    pub event: Account<'info, EventAccount>,
 
     #[account(mut)]
-    pub admin: Signer<'info>,
-
-    /// CHECK: Treasury receiving address validated in Anchor struct
-    pub treasury: UncheckedAccount<'info>,
+    pub authority: Signer<'info>,
 
     pub system_program: Program<'info, System>,
 }
 
 #[derive(Accounts)]
-#[instruction(event_id: u64)]
-pub struct RegisterHacker<'info> {
+pub struct RegisterPass<'info> {
+    #[account(
+        mut,
+        seeds = [b"event", event.event_id.as_bytes()],
+        bump = event.bump
+    )]
+    pub event: Account<'info, EventAccount>,
+
     #[account(
         init,
-        payer = hacker,
-        space = 8 + AttendeeBadge::INIT_SPACE,
-        seeds = [BADGE_SEED, event_id.to_le_bytes().as_ref(), hacker.key().as_ref()],
+        payer = payer,
+        space = PassAccount::LEN,
+        seeds = [b"pass", event.key().as_ref(), attendee.key().as_ref()],
         bump
     )]
-    pub hacker_badge: Account<'info, AttendeeBadge>,
+    pub pass: Account<'info, PassAccount>,
 
-    #[account(
-        mut,
-        seeds = [CONFIG_SEED],
-        bump = config.bump
-    )]
-    pub config: Account<'info, GlobalConfig>,
-
-    #[account(
-        mut,
-        mint::authority = config,
-        mint::token_program = token_program
-    )]
-    pub badge_mint: InterfaceAccount<'info, Mint>,
-
-    #[account(
-        mut,
-        token::mint = badge_mint,
-        token::authority = hacker,
-        token::token_program = token_program
-    )]
-    pub badge_token_account: InterfaceAccount<'info, TokenAccount>,
+    /// CHECK: The public key of the attendee who owns this pass.
+    pub attendee: UncheckedAccount<'info>,
 
     #[account(mut)]
-    pub hacker: Signer<'info>,
+    pub payer: Signer<'info>,
 
-    pub token_program: Interface<'info, Token2022>,
     pub system_program: Program<'info, System>,
 }
 
 #[derive(Accounts)]
-#[instruction(track_id: u8)]
-pub struct FundTrackVault<'info> {
+pub struct CheckIn<'info> {
     #[account(
-        init_if_needed,
-        payer = sponsor,
-        space = 8 + TrackVault::INIT_SPACE,
-        seeds = [VAULT_SEED, &[track_id]],
-        bump
+        mut,
+        has_one = authority @ BreakpointError::UnauthorizedAuthority,
+        seeds = [b"event", event.event_id.as_bytes()],
+        bump = event.bump
     )]
-    pub track_vault: Account<'info, TrackVault>,
-
-    pub vault_mint: InterfaceAccount<'info, Mint>,
+    pub event: Account<'info, EventAccount>,
 
     #[account(
         mut,
-        associated_token::mint = vault_mint,
-        associated_token::authority = sponsor,
-        associated_token::token_program = token_program
+        seeds = [b"pass", event.key().as_ref(), pass.attendee.as_ref()],
+        bump = pass.bump
     )]
-    pub sponsor_token_account: InterfaceAccount<'info, TokenAccount>,
+    pub pass: Account<'info, PassAccount>,
 
-    #[account(
-        init_if_needed,
-        payer = sponsor,
-        associated_token::mint = vault_mint,
-        associated_token::authority = track_vault,
-        associated_token::token_program = token_program
-    )]
-    pub vault_token_account: InterfaceAccount<'info, TokenAccount>,
-
-    #[account(mut)]
-    pub sponsor: Signer<'info>,
-
-    pub token_program: Interface<'info, Token2022>,
-    pub system_program: Program<'info, System>,
-    pub associated_token_program: Program<'info, anchor_spl::associated_token::AssociatedToken>,
+    pub authority: Signer<'info>,
 }
 
 #[derive(Accounts)]
-#[instruction(track_id: u8)]
-pub struct DisbursePrizes<'info> {
+pub struct ClaimPerk<'info> {
     #[account(
-        seeds = [CONFIG_SEED],
-        bump = config.bump,
-        has_one = admin @ BreakpointError::UnauthorizedAdmin
+        seeds = [b"event", event.event_id.as_bytes()],
+        bump = event.bump
     )]
-    pub config: Account<'info, GlobalConfig>,
+    pub event: Account<'info, EventAccount>,
 
     #[account(
         mut,
-        seeds = [VAULT_SEED, &[track_id]],
-        bump = track_vault.bump,
-        has_one = vault_mint @ BreakpointError::InvalidMint
+        seeds = [b"pass", event.key().as_ref(), attendee.key().as_ref()],
+        bump = pass.bump
     )]
-    pub track_vault: Account<'info, TrackVault>,
+    pub pass: Account<'info, PassAccount>,
 
-    pub vault_mint: InterfaceAccount<'info, Mint>,
-
-    #[account(
-        mut,
-        associated_token::mint = vault_mint,
-        associated_token::authority = track_vault,
-        associated_token::token_program = token_program
-    )]
-    pub vault_token_account: InterfaceAccount<'info, TokenAccount>,
-
-    pub admin: Signer<'info>,
-    pub token_program: Interface<'info, Token2022>,
-}
-
-#[derive(Accounts)]
-pub struct SetCircuitBreaker<'info> {
-    #[account(
-        mut,
-        seeds = [CONFIG_SEED],
-        bump = config.bump,
-        has_one = admin @ BreakpointError::UnauthorizedAdmin
-    )]
-    pub config: Account<'info, GlobalConfig>,
-    pub admin: Signer<'info>,
+    pub attendee: Signer<'info>,
 }
 
 // -----------------------------------------------------------------------------
-// STATE SCHEMAS
+// EVENTS & ERRORS
 // -----------------------------------------------------------------------------
 
-#[account]
-#[derive(InitSpace)]
-pub struct GlobalConfig {
-    pub admin: Pubkey,                   // 32
-    pub treasury: Pubkey,                // 32
-    pub protocol_fee_bps: u16,           // 2
-    pub disbursement_delay_slots: u64,   // 8
-    pub is_paused: bool,                 // 1
-    pub total_events: u64,               // 8
-    pub bump: u8,                        // 1
+#[event]
+pub struct EventInitialized {
+    pub event_id: String,
+    pub authority: Pubkey,
+    pub max_capacity: u32,
 }
 
-#[account]
-#[derive(InitSpace)]
-pub struct TrackVault {
-    pub track_id: u8,                    // 1
-    pub sponsor: Pubkey,                 // 32
-    pub token_mint: Pubkey,              // 32
-    pub total_allocation: u64,           // 8
-    pub remaining_balance: u64,          // 8
-    pub unlock_slot: u64,                // 8
-    pub bump: u8,                        // 1
+#[event]
+pub struct PassRegistered {
+    pub event: Pubkey,
+    pub attendee: Pubkey,
+    pub tier: PassTier,
+    pub pass_pda: Pubkey,
 }
 
-#[account]
-#[derive(InitSpace)]
-pub struct AttendeeBadge {
-    pub hacker: Pubkey,                  // 32
-    pub event_id: u64,                   // 8
-    pub handle_hash: [u8; 32],           // 32
-    pub checkin_timestamp: i64,          // 8
-    pub track_assigned: u8,              // 1
-    pub bump: u8,                        // 1
+#[event]
+pub struct AttendeeCheckedIn {
+    pub event: Pubkey,
+    pub attendee: Pubkey,
+    pub timestamp: i64,
 }
 
-// -----------------------------------------------------------------------------
-// ERROR DEFINITIONS
-// -----------------------------------------------------------------------------
+#[event]
+pub struct PerkClaimed {
+    pub event: Pubkey,
+    pub attendee: Pubkey,
+    pub perk_id: u8,
+    pub timestamp: i64,
+}
 
 #[error_code]
 pub enum BreakpointError {
-    #[msg("Protocol operations are currently paused by the circuit breaker.")]
-    ProtocolPaused,
-    #[msg("Signer is not authorized to perform administrative operations.")]
-    UnauthorizedAdmin,
-    #[msg("Deposit amount must be strictly greater than zero.")]
-    ZeroDeposit,
-    #[msg("Vault unlock slot must be in the future relative to current slot.")]
-    InvalidTimelock,
-    #[msg("Timelock has not expired yet. Payouts locked.")]
-    TimelockActive,
-    #[msg("Specified basis points distribution must equal exactly 10,000 (100%).")]
-    InvalidBpsTotal,
-    #[msg("Number of remaining accounts does not match basis points vector length.")]
-    AccountMismatch,
-    #[msg("Number of winner accounts exceeds protocol maximum allowed per track.")]
-    TooManyRecipients,
-    #[msg("Supplied token mint does not match the track vault's configured mint.")]
-    InvalidMint,
-    #[msg("Arithmetic overflow occurred during balance calculation.")]
-    MathOverflow,
+    #[msg("Event ID must be between 1 and 32 characters.")]
+    InvalidEventIdLength,
+    #[msg("Event name must be between 1 and 64 characters.")]
+    InvalidNameLength,
+    #[msg("Capacity must be greater than zero.")]
+    InvalidCapacity,
+    #[msg("Metadata URI exceeds maximum allowed length of 128 bytes.")]
+    InvalidMetadataUri,
+    #[msg("The event is currently inactive.")]
+    EventInactive,
+    #[msg("Event max capacity reached.")]
+    CapacityExceeded,
+    #[msg("Attendee is already checked in.")]
+    AlreadyCheckedIn,
+    #[msg("Must check in to the event prior to claiming sponsor perks.")]
+    MustBeCheckedInToClaimPerk,
+    #[msg("Perk ID must be within 0 to 63.")]
+    InvalidPerkId,
+    #[msg("This perk has already been claimed.")]
+    PerkAlreadyClaimed,
+    #[msg("Signer is not authorized to perform this operation.")]
+    UnauthorizedAuthority,
+    #[msg("Arithmetic overflow occurred.")]
+    ArithmeticOverflow,
 }

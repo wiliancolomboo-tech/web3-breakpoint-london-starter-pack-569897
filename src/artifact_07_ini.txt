@@ -1,0 +1,5 @@
+SOLANA_RPC_URL=https://api.devnet.solana.com
+PROGRAM_ID=NexBP11111111111111111111111111111111111111
+RESEND_API_KEY=re_live_9a8b7c6d5e4f3a2b1
+SLACK_WEBHOOK_URL=https://api.example.com/webhooks/alerts/placeholder
+PORT=8080

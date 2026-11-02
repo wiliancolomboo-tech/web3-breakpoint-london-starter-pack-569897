@@ -1,0 +1,1 @@
+npx ts-node src/cli.ts freeze --freeze true --keypair authority.json

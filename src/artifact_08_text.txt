@@ -1,0 +1,13 @@
+1/3 🇬🇧 Touchdown in London! Excited to introduce BreakPack: The ultimate developer starter pack and gasless credential protocol built specifically for @Solana #Breakpoint2025! ⚡️
+
+No friction. No 429 faucet limits. Just pure Solana speed from Day 1. 🧵👇
+
+2/3 🛠 What's inside the BreakPack Starter Pack?
+🎟 On-chain Breakpoint Delegate Passports
+⛽️ Zero-friction gasless onboarding via our Relayer & Octane PDA Vault
+📬 Auto-dispatch welcome kits via @resend & live Discord booth telemetry
+🔒 100% Rust Anchor 0.30 security
+
+3/3 Open-source, turnkey, and ready for production hackathons. Sponsors can deploy side-event ticketing & developer bounties in under 60 seconds.
+
+Grab your terminal, claim your passport, and let’s build on @solana: https://github.com/solana-developers/breakpack-london 🚀🇬🇧 #SolanaBreakpoint #SolanaDevs

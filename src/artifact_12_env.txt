@@ -1,0 +1,13 @@
+# Solana Configuration
+SOLANA_RPC_URL=https://api.devnet.solana.com
+SOLANA_NETWORK=devnet
+PROGRAM_ID=BPASSx1111111111111111111111111111111111111
+
+# Enterprise Oracle & Check-in Credentials
+CONFERENCE_ID=202410
+VENUE_ZONE=0x4C4F4E31
+ORACLE_KEYPAIR_PATH=./oracle-keypair.json
+
+# Enterprise Notification Gateways
+RESEND_API_KEY=re_123456789_abcdef
+DISCORD_WEBHOOK_URL=https://api.example.com/webhooks/alerts/placeholder

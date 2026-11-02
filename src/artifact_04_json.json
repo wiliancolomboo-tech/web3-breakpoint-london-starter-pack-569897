@@ -1,0 +1,33 @@
+{
+  "name": "@breakpoint/starter-pack-cli",
+  "version": "1.0.0",
+  "description": "Enterprise CLI & Automation Daemon for Breakpoint London",
+  "main": "dist/index.js",
+  "bin": {
+    "breakpoint-pack": "./dist/index.js"
+  },
+  "scripts": {
+    "build": "tsc",
+    "start": "node dist/index.js",
+    "daemon": "node dist/daemon.js",
+    "test": "ts-mocha -p ./tsconfig.json -t 1000000 tests/**/*.ts"
+  },
+  "dependencies": {
+    "@coral-xyz/anchor": "^0.30.1",
+    "@solana/web3.js": "^1.95.8",
+    "@solana/spl-token": "^0.4.9",
+    "commander": "^12.1.0",
+    "dotenv": "^16.4.7",
+    "resend": "^4.0.1",
+    "node-fetch": "^2.7.0"
+  },
+  "devDependencies": {
+    "@types/chai": "^4.3.16",
+    "@types/mocha": "^10.0.7",
+    "@types/node": "^20.14.9",
+    "chai": "^4.4.1",
+    "mocha": "^10.7.0",
+    "ts-mocha": "^10.0.0",
+    "typescript": "^5.5.2"
+  }
+}

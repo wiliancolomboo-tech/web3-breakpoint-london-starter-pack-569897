@@ -1,5 +1,7 @@
-# Set Solana CLI to local test validator
-solana config set --url localhost
+# Configure Solana CLI for London Breakpoint cluster
+solana config set --url https://api.devnet.solana.com
 
-# Generate local keypair if not present
-solana-keygen new --no-bip39-passphrase --force --outfile ~/.config/solana/id.json
+# Deploy contract binary
+solana program deploy ./target/deploy/breakpoint_starter_pack.so \
+  --program-id ./target/deploy/breakpoint_starter_pack-keypair.json \
+  --priority-fee 10000

@@ -1,0 +1,9 @@
+Breakpoint London Starter Pack (BLSP) End-to-End Test Matrix
+    ✔ QA-01: Correctly initializes the Master Vault PDA (328ms)
+    ✔ QA-02: Successfully deposits Token-2022 assets into Vault PDA (452ms)
+    ✔ QA-03: Registers an Ephemeral Session Key with Slot Expiry and Spend Allowance (215ms)
+    ✔ QA-04: Executes a valid delegated spend from the Session Key (Gasless UX simulation) (389ms)
+    ✔ QA-05: Rejects unauthorized spending exceeding max session allowance (184ms)
+    ✔ QA-06: Revokes the session key and reclaims rent lamports to owner (312ms)
+
+  6 passing (2s)

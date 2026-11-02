@@ -1,0 +1,8 @@
++-----------------------------------------------------------------------------------+
+|                        BREAKPOINT LONDON STARTER PACK                             |
++-----------------------------------------------------------------------------------+
+|  Anchor Smart Contract     |  Gasless Transaction Relayer  |  Enterprise Webhooks |
+|  - PDA Pass Gating         |  - Fee Sponsorship Service    |  - Resend Mail API   |
+|  - Milestone Bounty Escrow |  - Nonce Replay Guard         |  - Slack/Discord Ops |
+|  - ed25519 Event Attest   |  - Automated Priority Fees    |  - Jito/Helius Ready |
++-----------------------------------------------------------------------------------+

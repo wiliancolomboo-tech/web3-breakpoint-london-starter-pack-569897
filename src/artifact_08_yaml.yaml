@@ -1,0 +1,22 @@
+version: "3.8"
+
+services:
+  breakpoint-ingress-daemon:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: breakpoint_london_gateway
+    restart: unless-stopped
+    ports:
+      - "3000:3000"
+    environment:
+      - PORT=3000
+      - SOLANA_RPC_URL=https://api.devnet.solana.com
+      - RESEND_API_KEY=${RESEND_API_KEY:-re_demo_key}
+      - DISCORD_WEBHOOK_URL=${DISCORD_WEBHOOK_URL:-https://api.example.com/webhooks/alerts/placeholder
+      - OPERATOR_PRIVATE_KEY=${OPERATOR_PRIVATE_KEY}
+    healthcheck:
+      test: ["CMD", "wget", "-qO-", "http://localhost:3000/health"]
+      interval: 15s
+      timeout: 5s
+      retries: 3

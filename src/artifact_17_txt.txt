@@ -1,0 +1,7 @@
+Sponsors and hackers: Stop reinventing event infrastructure and hackathon prize routing from scratch.
+
+Fork the Breakpoint London Starter Pack and deploy in < 60 seconds:
+📦 Code: github.com/solana-developers/breakpoint-london-starter-pack
+🚀 Built with @solana & @coral_xyz
+
+See you in London! 🇬🇧✨

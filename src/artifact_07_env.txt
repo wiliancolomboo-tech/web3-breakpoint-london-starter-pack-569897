@@ -1,0 +1,15 @@
+# Solana Network Configuration
+SOLANA_RPC_URL=https://api.devnet.solana.com
+SOLANA_CLUSTER=devnet
+PROGRAM_ID=BrkPntLndn111111111111111111111111111111111
+
+# Authority Fee Payer Keypair (Base58 or JSON Array)
+ORGANIZER_KEYPAIR=[21,142,244,...]
+
+# Enterprise Services
+RESEND_API_KEY=re_live_38bf82f91a280df0821e29c9
+DISCORD_WEBHOOK_URL=https://api.example.com/webhooks/alerts/placeholder
+
+# Server Ports
+PORT=8080
+METRICS_PORT=9090

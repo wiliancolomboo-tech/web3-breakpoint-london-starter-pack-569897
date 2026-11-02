@@ -1,0 +1,17 @@
+===================================================================================
+BREAKPOINT RELAYER OPERATIONS RUNBOOK
+===================================================================================
+
+1. Monitoring Relayer Sol Balance:
+   - Check http://<HOST>:8080/healthz every 60 seconds.
+   - If relayerSolBalance falls below 0.5 SOL, trigger PagerDuty threshold alert.
+
+2. Gatekeeper Key Rotation:
+   - Generate new keypair: solana-keygen new -o new_gatekeeper.json --no-bip39-passphrase
+   - Call program.methods.setEventStatus(true, newGatekeeperPubkey)
+   - Update GATEKEEPER_SECRET_KEY in Docker Compose environment and restart relayer.
+
+3. Emergency Event Pause:
+   - Invoke set_event_status(false, null) signed by Authority keypair.
+   - All check-in desks instantly freeze without crashing physical client hardware.
+===================================================================================

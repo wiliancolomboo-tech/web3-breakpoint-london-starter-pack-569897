@@ -1,0 +1,9 @@
+Breakpoint London Starter Suite
+    ✔ 1. Initializes the Breakpoint Event Registry (412ms)
+    ✔ 2. Issues a Soulbound Pass with Session Key Delegation (380ms)
+    ✔ 3. Successfully verifies physical check-in at the gate (290ms)
+    ✔ 4. Prevents duplicate check-in (Replay Attack Guard) (155ms)
+    ✔ 5. Settles instant merchant payment via session key with protocol fee split (498ms)
+    ✔ 6. Rejects payment from an unauthorized rogue signer (182ms)
+
+  6 passing (2s)

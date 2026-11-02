@@ -1,0 +1,36 @@
+version: '3.8'
+
+services:
+  solana-test-validator:
+    image: solanalabs/solana:v1.18.26
+    container_name: breakpoint-solana-validator
+    ports:
+      - "8899:8899"
+      - "8900:8900"
+    command: >
+      solana-test-validator
+      --reset
+      --bind-address 0.0.0.0
+      --rpc-port 8899
+    healthcheck:
+      test: ["CMD-SHELL", "solana cluster-version --url http://127.0.0.1:8899 || exit 1"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  breakpoint-relayer:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: breakpoint-relayer-daemon
+    depends_on:
+      solana-test-validator:
+        condition: service_healthy
+    environment:
+      - SOLANA_RPC_URL=http://solana-test-validator:8899
+      - SOLANA_WS_URL=ws://solana-test-validator:8900
+      - PROGRAM_ID=BrkPntLondon111111111111111111111111111111111
+      - RESEND_API_KEY=${RESEND_API_KEY:-re_mock_key}
+      - DISCORD_WEBHOOK_URL=${DISCORD_WEBHOOK_URL}
+      - ENABLE_EMAIL_DISPATCH=false
+    restart: always

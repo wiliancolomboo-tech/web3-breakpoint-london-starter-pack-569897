@@ -1,0 +1,10 @@
++------------------------------------------------------+-------------------------+-----------------+
+| Test Case                                            | Security / Assert Scope | Target Result   |
++------------------------------------------------------+-------------------------+-----------------+
+| 01: Initialize Starter Pack & PDA Bounds             | Deterministic PDA Check | PASS (200 OK)   |
+| 02: Fund Escrow Vault via CPI Transfer               | Lamport Accounting      | PASS (200 OK)   |
+| 03: Gasless Claim Execution by Relayer               | PDA Creation & Transfer | PASS (200 OK)   |
+| 04: Duplicate Claim Prevention (Anti-Sybil)          | Constraint Check        | REVERT (0x0)    |
+| 05: Unfunded / Depleted Vault Protection             | Lamport Balance Bounds  | REVERT (0x177a) |
+| 06: Campaign Expiry & Escrow Sweeper                 | Unix Clock Assertion    | PASS (200 OK)   |
++------------------------------------------------------+-------------------------+-----------------+

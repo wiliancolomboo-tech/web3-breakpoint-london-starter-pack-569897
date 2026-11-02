@@ -1,0 +1,16 @@
+1/3 🇬🇧 Building for @Solana Breakpoint London? Don't start from scratch.
+
+Introducing the Breakpoint London Starter Pack: an audited, production-grade Anchor framework combining non-custodial session keys, instant venue check-in verification, and zero gas friction for attendees. ⚡️🧵
+
+2/3 🎟️ Most starter templates stop at a basic "Hello World".
+BPL-Pack provides a full enterprise loop:
+🔹 Anchor 0.30 smart contract with anti-replay state machines
+🔹 Delegated ephemeral session keys for 1-tap badge interactions
+🔹 Direct @resend email delivery + Discord Ops telemetry
+
+3/3 🚢 Deployable in 60 seconds with Docker & Anchor test-suite included.
+
+Grab the repo, run `anchor test`, and start hacking the future of high-throughput Solana dApps in London! 🚀🇬🇧
+
+GitHub: https://github.com/solana-developers/breakpoint-london-starter-pack
+#Solana #BreakpointLondon #SolanaDevs #Web3

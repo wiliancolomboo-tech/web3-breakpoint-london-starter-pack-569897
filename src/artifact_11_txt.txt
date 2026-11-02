@@ -1,0 +1,7 @@
+Under the hood of the Breakpoint London Core:
+⚡️ Anchor 0.30+ program with deterministic PDA registration & check-in guards
+💰 Non-custodial Sponsor Escrow with Ed25519 milestone verification & anti-reentrancy
+📨 Instant ticket delivery via @resend + live ops alerting via Slack/Discord webhooks
+💨 Sub-second priority fee adaptation
+
+No toy mocks. 100% production code.

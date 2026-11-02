@@ -1,0 +1,17 @@
+# File: Dockerfile
+FROM node:20-alpine AS runner
+
+WORKDIR /app
+
+RUN apk add --no-cache python3 make g++
+
+COPY package.json tsconfig.json ./
+RUN npm install
+
+COPY src/ ./src
+COPY target/idl/ ./target/idl/
+
+EXPOSE 8080
+ENV NODE_ENV=production
+
+CMD ["npm", "run", "start:daemon"]

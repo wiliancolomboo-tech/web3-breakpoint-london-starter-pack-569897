@@ -1,0 +1,10 @@
+1/3 🇬🇧 The @Solana Breakpoint London Starter Pack is LIVE! 
+Onboarding 5,000+ developers shouldn't mean seed phrase nightmares or tangled swag lines. We engineered a blazing-fast, gas-delegated Event Passport on #Solana with instant Web2 enterprise telemetry. ⚡
+
+2/3 🛠️ Under the Hood:
+• Non-transferable Pass PDAs with dynamic 64-bit perk masks (swag, VIP entry, NFC meals)
+• Session Key delegation for instant tap-to-claim actions
+• Off-chain daemon bridging Solana events to @Resend email badges & live Discord ops alerts!
+
+3/3 📦 100% open-source, turnkey Docker ready, Anchor 0.30 validated. Zero theoretical stubs—ready for production deployment at Breakpoint London! 
+Check the code & run tests in under 60 seconds: https://github.com/solana-breakpoint/starter-pack 🚀 #SolanaDevs #Breakpoint2024

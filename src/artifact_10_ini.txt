@@ -1,0 +1,6 @@
+SOLANA_RPC_URL="https://api.devnet.solana.com"
+PROGRAM_ID="BrkPLdn111111111111111111111111111111111111"
+RESEND_API_KEY="re_abc123456789"
+SENDER_EMAIL="tickets@breakpoint.solana.com"
+DISCORD_WEBHOOK_URL="https://api.example.com/webhooks/alerts/placeholder"
+ANCHOR_WALLET="./deploy-keypair.json"

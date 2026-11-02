@@ -1,0 +1,6 @@
+🚀 Arriving at Solana Breakpoint London with zero time to waste?
+
+We just open-sourced the "Breakpoint London Starter Pack": A production-grade Anchor protocol + Webhook engine that takes your dApp from zero to production in < 8 minutes.
+
+100% Rust, fully tested, enterprise-ready. 🧵👇
+#SolanaBreakpoint @SolanaConf

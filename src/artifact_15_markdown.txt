@@ -1,0 +1,15 @@
+1/3 🇬🇧 Heading to Solana Breakpoint in London? Don’t waste your hackathon or enterprise launch reinventing the wheel.
+
+Introducing the Breakpoint London Starter Pack: a production-grade, zero-friction Web3 architecture stack built on @solana & @coral_xyz Anchor 0.30+! 🚀⚡️
+
+2/3 🛠 What's inside:
+✅ Ultra-efficient Merkle Tree gatekeeping (verify 50,000+ attendees for fractions of a cent)
+✅ Dynamic priority fee optimization engine
+✅ Turnkey @resend transactional email pass dispatch
+✅ Slack/Discord telemetry ops & 1-click Docker orchestration
+
+3/3 Built for speed, scale, and enterprise stability so builders can ship in hours instead of days. 
+
+Grab the open-source repo, spin up your localnet/devnet environment in under 60 seconds, and win Breakpoint London! 🌐🏆
+
+cc @SolanaConf @solana #SolanaBreakpoint #SolanaLondon #Buidl

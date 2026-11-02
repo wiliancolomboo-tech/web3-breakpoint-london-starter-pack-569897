@@ -1,0 +1,19 @@
+🧵 1/3
+Building for @Solana #Breakpoint2025 in London? 🇬🇧
+
+We just open-sourced the Breakpoint London Starter Pack: an enterprise-grade Anchor 0.30+ protocol + real-time webhook indexing engine for verifiable attendee passes, soulbound check-ins, and anti-fraud swag redemption! ⚡️
+
+🧵 2/3
+What’s under the hood?
+🛡️ PDA-based attendee state machine with bitmask double-claim protection
+📧 Automated transactional passes via @Resend
+📊 Instant Discord/Slack gate operations & sponsor booth quest tracking
+🧪 100% test coverage + 1-click Docker runner
+
+🧵 3/3
+No more paper spreadsheets, badge scalping, or lost merch at major crypto summits. 
+
+The standard for IRL Solana events is here. Check out the open-source repository & deploy on devnet today: 
+👉 github.com/solana-breakpoint/breakpoint-london-starter-pack
+
+cc @SolanaFndn @solana #SolanaDevs

@@ -1,0 +1,18 @@
+{
+  "icon": "https://arweave.net/breakpoint-london-icon.png",
+  "title": "Claim Breakpoint London 2025 Hacker Pass",
+  "description": "Mint your official attendee identity and receive gasless session sponsorship.",
+  "label": "Claim Pass",
+  "links": {
+    "actions": [
+      {
+        "label": "Hacker Pass (Free)",
+        "href": "/api/breakpoint/claim-pass?tier=hacker"
+      },
+      {
+        "label": "VIP Pass",
+        "href": "/api/breakpoint/claim-pass?tier=vip"
+      }
+    ]
+  }
+}

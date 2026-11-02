@@ -1,0 +1,6 @@
+Grab the code, deploy in under 60 seconds, and focus on what wins hackathons: your core product innovation.
+
+Full repo with Anchor program, TypeScript SDK & CI/CD runbooks:
+🔗 https://github.com/solana-breakpoint-london/breakpoint-starter-pack
+
+See you in London! Let’s show the world what high-throughput execution looks like. 🚀🌐

@@ -1,0 +1,25 @@
+version: '3.8'
+
+services:
+  breakpoint-daemon:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    restart: always
+    environment:
+      - SOLANA_RPC_URL=https://api.devnet.solana.com
+      - SOLANA_WS_URL=wss://api.devnet.solana.com
+      - PROGRAM_ID=BrkPntLndn111111111111111111111111111111111
+      - RESEND_API_KEY=${RESEND_API_KEY}
+      - RESEND_FROM_EMAIL=tickets@breakpoint-london.org
+      - DISCORD_WEBHOOK_URL=${DISCORD_WEBHOOK_URL}
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "100m"
+        max-file: "3"
+    healthcheck:
+      test: ["CMD-SHELL", "node -e 'process.exit(0)'"]
+      interval: 30s
+      timeout: 10s
+      retries: 3

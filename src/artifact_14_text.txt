@@ -1,0 +1,22 @@
+1/4 🇬🇧 Excited to ship the official Breakpoint London Starter Pack for the @Solana ecosystem! 
+
+Zero-friction builder onboarding meets institutional-grade infrastructure:
+⚡️ Merkle credential verification
+⛽️ Programmatic gas subsidy vault
+🔑 Ephemeral session key delegation
+
+Deep dive 🧵👇
+
+2/4 Cold-start UX on Solana shouldn't stall hackathon teams with 0-SOL wallets. 
+
+With our Anchor 0.30 engine, builders verify their ticket via deterministic Keccak256 Merkle proofs, receive their on-chain PDA badge, and get auto-subsidized gas for their deployment sprint in a single transaction.
+
+3/4 We paired the smart contract with an enterprise worker integrating @resend for dynamic developer welcome kits & real-time Discord/Slack alerting for hackathon ops. 
+
+Fully containerized. Turnkey Docker Compose. 100% test coverage.
+
+4/4 Repo is production-ready and open-sourced for the community! 
+
+Let's accelerate the next generation of builders landing in London. Built for speed, security, and scale on @solana. 🦀🚀
+
+Check out the code & deploy in 60s: https://github.com/solana-developers/breakpoint-london-starter-pack

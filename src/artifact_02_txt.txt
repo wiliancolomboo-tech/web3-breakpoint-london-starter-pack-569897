@@ -1,0 +1,27 @@
++-----------------------------------------------------------------------------------+
+|                           BREAKPOINT STARTER PACK TOPOLOGY                        |
++-----------------------------------------------------------------------------------+
+|                                                                                   |
+|  [Hacker CLI / Web App] <====== Ed25519 Authenticated Handshake =====> [RPC Pool] |
+|            |                                                                 |    |
+|            | 1. Submit Signed Claim                                          |    |
+|            v                                                                 v    |
+|  +-----------------------------------------------------------------------------+  |
+|  | Solana Core Network (Mainnet-Beta / Devnet)                                 |  |
+|  |                                                                             |  |
+|  | Program: BreakpointStarterPack111111111111111111111                        |  |
+|  |   - Account: EventRegistry (Escrow Vault Authority, Quotas, Tiers)          |  |
+|  |   - Account: AttendeePass (Soulbound Identity, Seed: [b"pass", event, user])|  |
+|  |   - System Program: Direct CPI Transfer of Lamports to Attendee             |  |
+|  +-----------------------------------------------------------------------------+  |
+|            |                                                                      |
+|            | Emit On-Chain Anchor Event                                           |
+|            v                                                                      |
+|  +-----------------------------------------------------------------------------+  |
+|  | Node.js / TypeScript Enterprise Worker                                       |  |
+|  |                                                                             |  |
+|  | [Event Listener] -----> [Resend Engine] =====> Attendees (HTML Key Receipt)  |
+|  |         |                                                                   |  |
+|  |         +--------------> [Slack Webhook] ====> #breakpoint-sponsors War Room |  |
+|  +-----------------------------------------------------------------------------+  |
++-----------------------------------------------------------------------------------+

@@ -1,0 +1,15 @@
+[x] PDA Seed Collision Protection:
+    - All PDAs enforce unique namespace strings ("event_config", "pass", "stream", "vault")
+    - Unique 64-bit numerical IDs (u64 le_bytes) appended to prevent cross-account collisions.
+[x] Arithmetic Overflow / Underflow Hardening:
+    - 100% of arithmetic calculations executed using checked_add, checked_sub, checked_mul, checked_div.
+    - Intermediate stream calculations upcast to u128 to prevent 64-bit overflow during time-weighted multiplications.
+[x] Authorization & Access Control:
+    - `has_one = authority` enforced on `issue_pass` preventing minting exploits.
+    - `has_one = recipient` enforced on `claim_stream` preventing front-running balance redirection.
+    - `has_one = sender` enforced on `cancel_stream` to protect sponsor principal.
+[x] Program Invocation & Mint Verification:
+    - InterfaceAccount<'info, Mint> coupled with token::mint constraints prevents fake token deposits.
+    - Token program pinned explicitly to `token_2022_program` (TokenzQdBNbLqP5VEhdkAS6EPFLC1PHnBqCXEpPxuEb) to prevent malicious SPL substitutions.
+[x] Reentrancy Guard:
+    - Solana's runtime architecture natively avoids EVM call stack recursion, but state variables (stream.claimed_amount, stream.is_active) are mutated BEFORE Token CPI invocation (Checks-Effects-Interactions pattern).

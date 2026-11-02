@@ -1,0 +1,22 @@
+version: '3.8'
+
+services:
+  breakpoint-relay:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: breakpoint-london/pass-relay:1.0.0
+    restart: always
+    ports:
+      - "8080:8080"
+    environment:
+      - PORT=8080
+      - SOLANA_RPC_URL=https://api.devnet.solana.com
+      - PROGRAM_ID=BrkPntLndn111111111111111111111111111111111
+      - RESEND_API_KEY=${RESEND_API_KEY}
+      - DISCORD_WEBHOOK_URL=${DISCORD_WEBHOOK_URL}
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "20m"
+        max-file: "5"

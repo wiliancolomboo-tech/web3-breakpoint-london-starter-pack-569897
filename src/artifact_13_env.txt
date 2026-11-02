@@ -1,0 +1,14 @@
+# Solana RPC and Program Configuration
+SOLANA_RPC_URL=https://api.mainnet-beta.solana.com
+SOLANA_WS_URL=wss://api.mainnet-beta.solana.com
+PROGRAM_ID=BrkPntLndn111111111111111111111111111111111
+
+# Enterprise Resend API (Transactional Pass Emails)
+RESEND_API_KEY=re_123456789abcdef
+
+# Operational Discord/Slack Webhook (Gatekeeper Alerts)
+DISCORD_WEBHOOK_URL=https://api.example.com/webhooks/alerts/placeholder
+
+# Server Configuration
+PORT=8080
+LOG_LEVEL=info

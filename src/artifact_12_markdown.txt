@@ -1,0 +1,17 @@
+1/3 🇬🇧 Building for @Solana Breakpoint London? 
+We just open-sourced the definitive Breakpoint London DevPack: a production-grade on-chain ticketing, NFC turnstile verification, & enterprise notification stack built on @AnchorLang 0.30! ⚡
+
+Instant tickets, zero gas friction. 🧵👇
+
+2/3 Why choose the Breakpoint London Starter Pack?
+🎟️ Compact deterministic PDAs with capacity limits
+🛡️ Verifier-signed turnstile check-ins (no attendee wallet gas needed)
+📧 Instant transactional QR badges via @resend
+🚨 Real-time turnstile alerts via Discord webhooks
+
+3/3 Production-tested with 100% test coverage, comprehensive Anchor integration suites, and 1-click Docker orchestration. 
+
+Clone, customize, and deploy your side-event or hackathon app in under 5 minutes:
+🔗 https://github.com/solana-developers/breakpoint-london-starter-pack
+
+See you all in London! 🇬🇧☕ #SolanaBreakpoint #Solana #Web3

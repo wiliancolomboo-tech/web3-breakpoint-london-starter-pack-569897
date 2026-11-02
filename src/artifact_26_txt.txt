@@ -1,0 +1,5 @@
+Attending or hacking at @Solana #Breakpoint2025 in London? 🇬🇧
+
+Don't spend your first 36 hours building hackathon plumbing.
+
+We built the Breakpoint London Starter Pack: a battle-tested, enterprise-grade Anchor 0.30+ scaffold with native soulbound ticketing, perk escrow payouts & real-time webhook sync! ⚡🧵👇

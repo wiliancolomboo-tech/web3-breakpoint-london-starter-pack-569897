@@ -1,0 +1,15 @@
+🧵 1/3
+London calling! 🇬🇧 Excited to release the Breakpoint London Starter Pack: the first production-grade, decentralized credentialing & turnkey automation engine for @Solana Breakpoint. 
+
+Eliminating fake badges, slow turnstiles, and fragmented Web2 event stacks. ⚡ #SolanaBreakpoint
+
+🧵 2/3
+Under the hood:
+🔹 Non-custodial Anchor Program with PDA-based turnstile check-in & double-entry replay protection
+🔹 Sub-400ms event detection across ExCeL London venue turnstiles
+🔹 Enterprise automation pipeline dispatching instant @resend receipts & Slack/Discord telemetry! 🚀
+
+🧵 3/3
+Turnkey, tested with 100% QA assertion coverage, and fully Dockerized for 1-click sponsor handover. 
+
+Ready for prime time at @SolanaConf. Check out the open-source repo & build the future of Web3 live events: https://github.com/solana-breakpoint/london-starter-pack 🛠️🔥

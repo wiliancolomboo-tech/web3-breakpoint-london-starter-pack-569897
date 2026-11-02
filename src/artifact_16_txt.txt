@@ -1,0 +1,8 @@
+3/ Complete copy-paste turnkey deployment ready for founders and event teams at Breakpoint:
+- 100% test coverage (Anchor localnet & devnet ready)
+- Turnkey Docker Compose & healthcheck probes
+- Zero-downtime handover runbook
+
+Deploy in 5 minutes: github.com/solana-breakpoint/london-starter-pack 🚀🇬🇧
+
+#Solana #SolanaBreakpoint #Anchor #Web3Dev

@@ -1,0 +1,6 @@
+3/ Ready to win the Breakpoint London hackathon?
+
+Fork the repo, run `docker compose up`, and ship your protocol in minutes:
+👉 https://github.com/solana-developers/breakpoint-london-starter-pack
+
+Huge shoutout to the @SolanaFndn team for making London the epicentre of high-throughput innovation! 🚢🔥

@@ -1,0 +1,19 @@
+🧵 1/3
+Thrilled to introduce the Solana Breakpoint London Starter Pack 🇬🇧⚡️
+A high-throughput, turn-key scaffold built to onboard thousands of attendees, hackers, and VIPs at @SolanaConf Breakpoint with 400ms finality and ZERO UX friction.
+
+Here is how we built it 👇
+
+🧵 2/3
+Under the hood:
+🔹 Anchor-powered Soulbound Pass PDA state machine with bitmask checkpoint verification
+🔹 Gasless relayer integration for seamless onboarding
+🔹 Enterprise comms pipeline via @resend for instant digital ticket pass emails
+🔹 Real-time Discord/Slack venue ops alerts
+
+🧵 3/3
+Complete source code, reproducible test matrix, and 1-click Docker deployment ready for mainnet handover.
+London, let’s build the decentralized future on @solana! 🚀
+
+Github repo & docs: https://github.com/solana-breakpoint-london-starter-pack
+#Solana #SolanaBreakpoint #Web3 #Rust

@@ -1,0 +1,26 @@
+version: "3.8"
+
+services:
+  apexpass-worker:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: apexpass_london_worker
+    restart: always
+    ports:
+      - "8080:8080"
+    environment:
+      - PORT=8080
+      - SOLANA_RPC_URL=https://api.devnet.solana.com
+      - SOLANA_WS_URL=wss://api.devnet.solana.com
+      - PROGRAM_ID=APEXpASsLonDon11111111111111111111111111111
+      - GATEKEEPER_PRIVATE_KEY=[1,2,3,4,...]
+      - RESEND_API_KEY=re_live_your_resend_key_here
+      - RESEND_FROM_EMAIL=passes@apexpass.london
+      - DISCORD_WEBHOOK_URL=https://api.example.com/webhooks/alerts/placeholder
+      - SLACK_WEBHOOK_URL=https://api.example.com/webhooks/alerts/placeholder
+    healthcheck:
+      test: ["CMD", "wget", "-qO-", "http://localhost:8080/health"]
+      interval: 15s
+      timeout: 5s
+      retries: 3

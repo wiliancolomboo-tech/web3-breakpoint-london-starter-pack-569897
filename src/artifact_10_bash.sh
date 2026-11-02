@@ -1,8 +1,8 @@
-# Configure Solana CLI for Devnet
-solana config set --url devnet
+# Set cluster configuration
+solana config set --url https://api.devnet.solana.com
 
-# Fund deployer account
+# Airdrop testnet SOL
 solana airdrop 2
 
-# Deploy program binary to Devnet
+# Deploy program
 anchor deploy --provider.cluster devnet

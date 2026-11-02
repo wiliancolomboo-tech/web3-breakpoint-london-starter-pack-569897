@@ -1,0 +1,8 @@
++-------------------+-------------------------------------------+----------------------------------------------+
+| Alert State       | Root Cause                                | Remediating Action                           |
++-------------------+-------------------------------------------+----------------------------------------------+
+| HTTP 500 / Claims | Relayer wallet has insufficient SOL       | Send 2 SOL to Relayer Pubkey via CLI         |
+| Failed Tx Drops   | Solana devnet RPC congestion              | Failover to private RPC (Helius / Triton)    |
+| Resend 429 Error  | Notification rate limits reached          | Upgrade API plan or activate queue buffer    |
+| Vault Underfunded | Total attendees exceeded initial deposit  | Call `fundVault` Anchor instruction via CLI  |
++-------------------+-------------------------------------------+----------------------------------------------+

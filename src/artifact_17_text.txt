@@ -1,0 +1,6 @@
+2/ Under the hood, this isn’t just a simple template:
+🔒 Deterministic PDA access control & zero-unsafe lamport transfers
+⚡ Automated event listeners routing tx proofs directly into @Resend & @SlackHQ webhooks
+🐳 1-click Docker Compose validator + indexing daemon
+
+No more spending 12 hours configuring devnet RPCs & scaffolding.

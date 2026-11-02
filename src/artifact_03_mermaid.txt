@@ -1,0 +1,41 @@
+flowchart TD
+    subgraph ClientLayer ["Client & Hardware Interaction Layer"]
+        A1["Attendee NFC Badge / Mobile Wallet"]
+        A2["Sponsor Booth Scanner / Terminal"]
+        A3["Breakpoint Web App / Blink Action"]
+    end
+
+    subgraph Gateway ["Enterprise Ingestion & Relayer"]
+        G1["BreakpointOS Engine CLI & Service Worker"]
+        G2["Session Key Authorization Guard"]
+        G3["Signature Verification & Rate Limiter"]
+    end
+
+    subgraph SolanaCore ["Solana On-Chain Program (Anchor)"]
+        P1["Event Config PDA<br/>[b'event', event_id]"]
+        P2["Attendee Pass PDA<br/>[b'pass', event_id, attendee_pubkey]"]
+        P3["Sponsor Vault PDA<br/>[b'sponsor_vault', event_id]"]
+        P4["Session Key PDA<br/>[b'session', attendee_pass]"]
+    end
+
+    subgraph EnterprisePipes ["Enterprise Telemetry & Notifications"]
+        E1["Resend API<br/>(Dynamic Cryptographic Pass Email)"]
+        E2["Slack / Discord Webhook<br/>(VIP Alert & Treasury Telemetry)"]
+        E3["Prometheus / Grafana<br/>(Health & Event Telemetry)"]
+    end
+
+    A1 -->|1. Tap / Scan Badge| G1
+    A2 -->|2. Gasless Sponsor Interaction| G2
+    A3 -->|3. Blink 1-Click RSVP| G1
+
+    G1 -->|Validate Nonce & Signer| G3
+    G3 -->|Submit Transaction| SolanaCore
+
+    SolanaCore -->|State Transition: Register/Check-in| P2
+    SolanaCore -->|Debit Gas Subsidy| P3
+    SolanaCore -->|Validate Session Expiry| P4
+
+    SolanaCore -.->|Emit On-Chain Events| G1
+    G1 -->|Dispatch Confirmation Ticket| E1
+    G1 -->|Broadcast Ops Alert| E2
+    G1 -->|Push Ingestion Metrics| E3

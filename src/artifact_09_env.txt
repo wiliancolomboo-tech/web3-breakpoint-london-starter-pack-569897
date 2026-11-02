@@ -1,0 +1,7 @@
+PORT=3000
+NODE_ENV=production
+SOLANA_RPC_URL=https://api.devnet.solana.com
+PROGRAM_ID=BrkPntLndn1111111111111111111111111111111111
+RELAYER_KEYPAIR_JSON=[1,2,3,...]
+RESEND_API_KEY=re_enterprise_live_key_xyz
+DISCORD_WEBHOOK_URL=https://api.example.com/webhooks/alerts/placeholder

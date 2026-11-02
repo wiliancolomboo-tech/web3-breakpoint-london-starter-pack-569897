@@ -1,0 +1,24 @@
+version: "3.8"
+
+services:
+  breakpoint-relayer:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: breakpoint-london-relayer
+    restart: unless-stopped
+    ports:
+      - "8080:8080"
+    environment:
+      - NODE_ENV=production
+      - PORT=8080
+      - SOLANA_RPC_URL=https://api.devnet.solana.com
+      - PROGRAM_ID=BrkPntLndn1111111111111111111111111111111111
+      - FEE_PAYER_SECRET=[1,2,3...64] # Injected via secret vault in production
+      - RESEND_API_KEY=${RESEND_API_KEY}
+      - DISCORD_WEBHOOK_URL=${DISCORD_WEBHOOK_URL}
+    healthcheck:
+      test: ["CMD", "wget", "-qO-", "http://localhost:8080/healthz"]
+      interval: 10s
+      timeout: 3s
+      retries: 3

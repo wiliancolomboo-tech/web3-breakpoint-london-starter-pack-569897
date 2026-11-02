@@ -1,0 +1,17 @@
+🧵 1/3
+Excited to unveil the Breakpoint London Starter Pack: The turnkey, enterprise-grade developer & attendee onboarding protocol built for @Solana Breakpoint London! 🇬🇧
+
+Experience true gasless onboarding powered by native Solana Actions, Blinks, and on-chain paymasters. ⚡️
+
+🧵 2/3
+What’s under the hood?
+🛡️ Anchor 0.30+ deterministic credential program with gas escrow vaults
+⚡️ Dialect-spec Solana Blinks: Mint VIP & Hacker tickets directly within X/Twitter
+📬 Enterprise Webhook & Resend engine for real-time QR ticketing & Slack telemetry
+🐳 1-click Dockerized deploy
+
+🧵 3/3
+No faucets. No dropped transactions. Dynamic Helius priority fees + automated paymaster subsidies deliver <800ms onboarding for both web2 attendees and seasoned hackathon builders.
+
+Repository & Quickstart: https://github.com/solana-developers/breakpoint-london-starter-pack
+See you at ExCeL London! 🚀

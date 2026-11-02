@@ -1,0 +1,1 @@
+solana transfer <RELAYER_PUBKEY> 5.0 --url devnet --keypair admin-keypair.json

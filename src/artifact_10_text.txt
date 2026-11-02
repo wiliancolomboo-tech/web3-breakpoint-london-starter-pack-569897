@@ -1,0 +1,16 @@
+1/4 🇬🇧 Heading to @Solana Breakpoint London? 
+Say goodbye to "I have no SOL for gas" and broken ticketing boilerplates.
+
+Introducing the Breakpoint London Starter Pack: The complete on-chain pass, gasless onboarding relayer, and workshop credentialing stack for Solana. 🧵👇
+
+2/4 ⚡ Powered by Anchor 0.30 & Token-2022 standards:
+- Gasless attendee onboarding with dynamic priority fee relayers
+- Deterministic PDA session passes & sybil-resistant perk faucets
+- Real-time enterprise alerts via @Resend & Discord webhooks
+- 100% test coverage & Dockerized 1-click deployment
+
+3/4 🛠️ Hackers & Booth Sponsors can integrate custom workshops, rate-limited perk distributions, and verifiable check-ins in under 5 minutes with our zero-config SDK.
+
+4/4 🚀 Full open-source implementation, audit-ready Rust code, and deployment runbooks are live:
+GitHub: https://github.com/solana-developers/breakpoint-london-starter-pack
+Let's build the future of Web3 at Breakpoint London! 🇬🇧🟣
