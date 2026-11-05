@@ -7,7 +7,7 @@ PROGRAM_ID=BrkPntLndn111111111111111111111111111111111
 ORGANIZER_KEYPAIR=[21,142,244,...]
 
 # Enterprise Services
-RESEND_API_KEY=re_live_38bf82f91a280df0821e29c9
+RESEND_API_KEY=re_test_000000000000000000000000
 DISCORD_WEBHOOK_URL=https://api.example.com/webhooks/alerts/placeholder
 
 # Server Ports

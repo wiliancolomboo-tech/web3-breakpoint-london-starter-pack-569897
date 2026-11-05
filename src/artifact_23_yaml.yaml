@@ -13,7 +13,7 @@ services:
       - SOLANA_WS_URL=wss://api.devnet.solana.com
       - PROGRAM_ID=BP1ond7k3tStarterPack11111111111111111111111
       - DISCORD_WEBHOOK_URL=https://api.example.com/webhooks/alerts/placeholder
-      - RESEND_API_KEY=re_your_resend_production_key
+      - RESEND_API_KEY=re_test_000000000000000000000000
       - SENDER_EMAIL=tickets@breakpoint-london.com
     ports:
       - "3000:3000"

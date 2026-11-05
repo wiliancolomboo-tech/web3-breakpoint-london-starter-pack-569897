@@ -9,5 +9,5 @@ VENUE_ZONE=0x4C4F4E31
 ORACLE_KEYPAIR_PATH=./oracle-keypair.json
 
 # Enterprise Notification Gateways
-RESEND_API_KEY=re_123456789_abcdef
+RESEND_API_KEY=re_test_000000000000000000000000
 DISCORD_WEBHOOK_URL=https://api.example.com/webhooks/alerts/placeholder

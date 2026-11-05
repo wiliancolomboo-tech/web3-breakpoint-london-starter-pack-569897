@@ -448,7 +448,7 @@ dotenv.config();
 
 const PORT = process.env.PORT || 3000;
 const RPC_URL = process.env.SOLANA_RPC_URL || clusterApiUrl("devnet");
-const RESEND_API_KEY = process.env.RESEND_API_KEY || "re_test_mock_token";
+const RESEND_API_KEY = process.env.RESEND_API_KEY || "re_test_000000000000000000000000";
 const DISCORD_WEBHOOK_URL = process.env.DISCORD_WEBHOOK_URL || "";
 
 // Initialize Solana Connection

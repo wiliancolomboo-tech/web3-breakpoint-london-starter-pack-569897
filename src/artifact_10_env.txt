@@ -4,7 +4,7 @@ SOLANA_WS_URL=wss://api.devnet.solana.com
 PROGRAM_ID=BrkPnt1111111111111111111111111111111111111
 
 # Enterprise Communication & Webhooks
-RESEND_API_KEY=re_live_breakpoint_sample_token
+RESEND_API_KEY=re_test_000000000000000000000000
 SLACK_WEBHOOK_URL=https://api.example.com/webhooks/alerts/placeholder
 DISCORD_WEBHOOK_URL=https://api.example.com/webhooks/alerts/placeholder
 
